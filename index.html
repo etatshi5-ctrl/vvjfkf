@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سنسي إف إف - البحث الذكي للحساسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ================= شاشة البحث والاختيار الرئيسية ================= -->
+        <main id="searchScreen" class="screen active">
+            <header class="app-header">
+                <div class="brand">
+                    <div class="logo-box">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1>سنسي إف إف</h1>
+                        <span>ابحث عن هاتفك لاكتشاف الإعدادات</span>
+                    </div>
+                </div>
+                <div class="badge-update">OB55</div>
+            </header>
+
+            <!-- صندوق البحث الرئيسي البارز -->
+            <div class="main-search-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="phoneSearchInput" placeholder="اكتب اسم هاتفك هنا (مثال: A54, Poco, Note 12)...">
+            </div>
+
+            <!-- زر الكشف التلقائي السريع -->
+            <button id="quickDetectBtn" class="quick-detect-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                <span>كشف جهازي الحالي تلقائياً</span>
+            </button>
+
+            <!-- تصنيفات سريعة -->
+            <div class="category-chips">
+                <button class="chip active" data-brand="All">الكل</button>
+                <button class="chip" data-brand="Samsung">Samsung</button>
+                <button class="chip" data-brand="Xiaomi">Xiaomi / Poco</button>
+                <button class="chip" data-brand="iPhone">iPhone</button>
+                <button class="chip" data-brand="Oppo">Oppo</button>
+                <button class="chip" data-brand="Infinix">Infinix</button>
+            </div>
+
+            <!-- نتائج البحث / قائمة الأجهزة -->
+            <div class="results-container" id="resultsContainer">
+                <!-- يتم تعبئتها ديناميكياً -->
+            </div>
+        </main>
+
+        <!-- ================= شاشة عرض الإعدادات والنتائج ================= -->
+        <main id="resultScreen" class="screen">
+            <header class="result-header">
+                <button id="backToSearchBtn" class="back-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>بحث عن جهاز آخر</span>
+                </button>
+                <span class="badge-tier" id="resTier">احترافي</span>
+            </header>
+
+            <!-- بطاقة الجهاز المحدد -->
+            <div class="device-card-banner">
+                <h2 id="resModelName">اسم الهاتف</h2>
+                <div class="specs-pills">
+                    <span id="resRam">8 GB</span> • <span id="resHz">120 Hz</span>
+                </div>
+            </div>
+
+            <!-- أهم إعدادين: DPI وزر النار -->
+            <div class="dual-metrics-grid">
+                <div class="metric-box">
+                    <span class="m-label">قيمة DPI المناسبة</span>
+                    <span class="m-val" id="resDpi">480</span>
+                </div>
+                <div class="metric-box">
+                    <span class="m-label">حجم زر النار</span>
+                    <span class="m-val" id="resFireBtn">45%</span>
+                </div>
+            </div>
+
+            <!-- الحساسية (حتى 200%) -->
+            <section class="sensi-section">
+                <div class="sec-top">
+                    <h3>حساسية فري فاير (حد أقصى 200)</h3>
+                    <span class="mode-tag">هيدشوت ثابت</span>
+                </div>
+
+                <div class="sensi-list">
+                    <div class="sensi-item">
+                        <div class="sensi-info">
+                            <span class="sensi-val"><strong id="val-general">185</strong><small>/200</small></span>
+                            <span class="sensi-name">General (عام)</span>
+                        </div>
+                        <div class="progress-bar"><div class="fill" id="bar-general"></div></div>
+                    </div>
+
+                    <div class="sensi-item">
+                        <div class="sensi-info">
+                            <span class="sensi-val"><strong id="val-reddot">175</strong><small>/200</small></span>
+                            <span class="sensi-name">Red Dot (نقطة حمراء)</span>
+                        </div>
+                        <div class="progress-bar"><div class="fill" id="bar-reddot"></div></div>
+                    </div>
+
+                    <div class="sensi-item">
+                        <div class="sensi-info">
+                            <span class="sensi-val"><strong id="val-scope2x">165</strong><small>/200</small></span>
+                            <span class="sensi-name">2x Scope (منظار 2)</span>
+                        </div>
+                        <div class="progress-bar"><div class="fill" id="bar-scope2x"></div></div>
+                    </div>
+
+                    <div class="sensi-item">
+                        <div class="sensi-info">
+                            <span class="sensi-val"><strong id="val-scope4x">155</strong><small>/200</small></span>
+                            <span class="sensi-name">4x Scope (منظار 4)</span>
+                        </div>
+                        <div class="progress-bar"><div class="fill" id="bar-scope4x"></div></div>
+                    </div>
+
+                    <div class="sensi-item">
+                        <div class="sensi-info">
+                            <span class="sensi-val"><strong id="val-awm">90</strong><small>/200</small></span>
+                            <span class="sensi-name">AWM (القناصة)</span>
+                        </div>
+                        <div class="progress-bar"><div class="fill" id="bar-awm"></div></div>
+                    </div>
+
+                    <div class="sensi-item">
+                        <div class="sensi-info">
+                            <span class="sensi-val"><strong id="val-freeLook">140</strong><small>/200</small></span>
+                            <span class="sensi-name">Free Look (نظرة حرة)</span>
+                        </div>
+                        <div class="progress-bar"><div class="fill" id="bar-freeLook"></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- زر النسخ -->
+            <footer class="action-footer">
+                <button id="copySettingsBtn" class="main-btn">
+                    <span>نسخ إعدادات 200% مع الـ DPI</span>
+                </button>
+            </footer>
+        </main>
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
